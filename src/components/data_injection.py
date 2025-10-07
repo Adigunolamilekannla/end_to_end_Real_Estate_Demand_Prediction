@@ -16,10 +16,10 @@ class DataInjectionConfig:
     """
     Stores all file paths for data ingestion and saving.
     """
-    time_stamp: str = datetime.now().strftime("%m_%d_%Y_%H_%M_%S")
+    #time_stamp: str = datetime.now().strftime("%m_%d_%Y_%H_%M_%S")
     raw_data_path: str = "/home/leksman/Desktop/my git hub work/end_to_end_Real_Estate_Demand_Predictio/raw_datas"
-    train_data_path: str = os.path.join("artifacts", time_stamp, "train_data", "train.csv")
-    test_data_path: str = os.path.join("artifacts", time_stamp, "test_data", "test.csv")
+    train_data_path: str = os.path.join("artifacts", "raw_data", "train_data", "train.csv")
+    test_data_path: str = os.path.join("artifacts", "raw_data", "test_data", "test.csv")
 
 
 # ===================================================
@@ -159,5 +159,13 @@ class DataInjection:
     # Pipeline trigger
     # ---------------------------------------------------
     def initiate_data_injection(self) -> DataInjectionConfig:
-        self.inject_data(raw_data_path=self.config.raw_data_path)
-        return self.config
+        try:
+            if os.path.exists(self.config.train_data_path) and os.path.exists(self.config.test_data_path):
+                logging.info("✅ Training and testing data already exist. Skipping data injection.")
+            else:
+                logging.info("🚀 Starting data injection process...")
+                self.inject_data(raw_data_path=self.config.raw_data_path)
+                logging.info("✅ Data injection completed successfully.")
+            return self.config
+        except Exception as e:
+            raise CustomException(e, sys)
