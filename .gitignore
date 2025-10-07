@@ -1,7 +1,6 @@
 raw_datas
 artifacts
 logs
-final_model
 mlruns
 catboost_info
 

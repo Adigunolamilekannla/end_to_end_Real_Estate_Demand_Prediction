@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prediction Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>✅ Prediction Results</h1>
+    
+    {% if mode == "file" %}
+    <h3>Predictions from uploaded CSV file:</h3>
+    <ul>
+        {% for p in predictions %}
+        <li>Prediction: {{ p }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <h3>Single Prediction Result:</h3>
+    <p class="result">Predicted Value: <strong>{{ predictions[0] }}</strong></p>
+    {% endif %}
+
+    <a href="/">🔙 Back to Home</a>
+</div>
+</body>
+</html>

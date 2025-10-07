@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ML Prediction System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>⚙️ Industrial Equipment Prediction</h1>
+    <p>Predict performance or failure using your trained ML model.</p>
+
+    <div class="card">
+        <h2>📁 Upload CSV for Full Prediction</h2>
+        <form action="/predict" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file" accept=".csv" required>
+            <button type="submit">Upload & Predict</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2>⚡ Quick Prediction (10 Key Features)</h2>
+        <form action="/predict" method="POST">
+            {% for feature in important_features %}
+            <label>{{ feature | capitalize }}:</label>
+            <input type="number" step="any" name="{{ feature }}" required>
+            {% endfor %}
+            <button type="submit">Predict Now</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
