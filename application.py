@@ -8,8 +8,7 @@ from src.utils.utils import load_object
 # ==================================================
 # Flask App
 # ==================================================
-application = Flask(__name__)
-app = application  # alias for local use
+app = Flask(__name__)
 
 # ==================================================
 # Paths for model and preprocessor
@@ -98,4 +97,4 @@ def predict():
 # Run app (for local and Elastic Beanstalk)
 # ==================================================
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080, debug=False)
+    app.run(host="0.0.0.0")
