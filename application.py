@@ -97,4 +97,4 @@ def predict():
 # Run app (for local and Elastic Beanstalk)
 # ==================================================
 if __name__ == "__main__":
-    app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0",port=5000)
