@@ -34,7 +34,7 @@ COPY . .
 # Pre-warm heavy imports to reduce cold start (pandas, numpy, scikit-learn, mlflow)
 USER root
 RUN python -c "import pandas; import numpy; import sklearn; import mlflow; import flask" \
-    && chown -R appuser:appuser /app
+    && chown -R appuser:appuser /application
 USER appuser
 
 # Expose port 5000 (Flask default)
