@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 import pandas as pd
-import sys, os
+import sys
 from src.logging.logger import logging
 from src.exception.exception import CustomException
 from src.utils.utils import load_object
@@ -27,25 +27,12 @@ except Exception as e:
     raise CustomException(e, sys)
 
 # ==================================================
-# Default values for file-based predictions
-# ==================================================
-default_features = {f"feature_{i}": 0 for i in range(1, 2001)}
-
-# ==================================================
-# Top 10 important features for quick prediction
-# ==================================================
-important_features = [
-    "temperature", "pressure", "vibration", "voltage", "current",
-    "humidity", "speed", "load", "torque", "power"
-]
-
-# ==================================================
 # Routes
 # ==================================================
 @app.route("/")
 def home():
     """Render homepage with upload and quick prediction form"""
-    return render_template("index.html", important_features=important_features)
+    return render_template("index.html")
 
 
 @app.route("/predict", methods=["POST"])
@@ -71,23 +58,7 @@ def predict():
                 mode="file"
             )
 
-        # ✅ CASE 2: Manual Input Form
-        else:
-            input_data = {}
-            for feature in important_features:
-                value = request.form.get(feature, None)
-                input_data[feature] = float(value) if value else 0.0
-
-            input_df = pd.DataFrame([input_data])
-            transformed_input = process_model.transform(input_df)
-            pred = model.predict(transformed_input)[0]
-
-            return render_template(
-                "result.html",
-                predictions=[pred],
-                mode="form"
-            )
-
+       
     except Exception as e:
         logging.error(f"❌ Prediction failed: {str(e)}")
         return render_template("result.html", error=str(e))
